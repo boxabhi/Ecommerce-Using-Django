@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+
+<div class="container mx-auto mt-5 pt-5">
+
+    <h2 class="text-center mb-4">Login</h2>
+    <div class="col-6"> 
+          <form  method="post">
+            {% if message %}
+            <div class="alert alert-success" role="alert">
+              {{message}}
+              </div>
+            {% endif %}
+              {% csrf_token %}
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+        </div>
+      
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+</div>
+
+</div>
+
+
+
+
+{% endblock %}

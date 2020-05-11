@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+
+<div class="container ">
+    {% if carts %}
+    <div class="shadow-lg p-5">
+
+        {% for cart in carts%}
+        
+        <div class="row">
+
+            <div class="col-lg-4">
+                <img src="{{cart.product.image}}" style="height:200px">
+            </div>
+
+            <div class="col-lg-4 mt-4">
+                <h3>{{cart.product}}</h3>
+                <span class="badge badge-secondary">{{cart.product.price}}</span>
+            </div>
+
+            <div class="col-lg-4 mt-4 ">
+                <button class="btn btn-primary ">Buy Now</button>
+                <a href="/accounts/remove/{{cart.id}}" class="btn btn-danger">Remove</a>
+            </div>
+
+
+        </div>
+
+        
+
+        {% endfor %}
+
+    </div>
+    {% else %}
+    <h2 class="text-center mt-5">Your Cart is empty</h2>
+    {% endif %}
+
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

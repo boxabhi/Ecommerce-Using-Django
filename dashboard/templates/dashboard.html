@@ -1,0 +1,111 @@
+{% extends "b.html" %}
+
+
+{% block content %}
+
+
+<div class="text-center">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Create Product
+  </button>
+</div>
+
+
+<div class="container">
+{% if message %}
+<div class="alert alert-success col-5" role="alert">
+  {{message}}
+  </div>
+{% endif %}
+
+
+</div>
+
+
+<div class="container mt-5">
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4 mt-4">
+            <div class="card shadow-lg" style="width: 18rem;">
+                <img src="{{product.image}}" class="card-img-top" alt="..." style="height:200px">
+                <div class="card-body">
+                  <h5 class="card-title">{{product.product}}</h5>
+                  <span class="badge badge-success">Price - {{product.price}}</span>
+                 
+                  
+                </div>
+              </div>
+        </div>
+
+        {% endfor %}
+    </div>
+    </div>
+
+
+
+    <div class="mt-5 pt-5"></div>
+
+
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+      
+        <div class="modal-body">
+
+
+            <form method="post"  action="">
+
+                {% if message %}
+                <div class="alert alert-success" role="alert">
+                  {{message}}
+                  </div>
+                {% endif %}
+        
+            {% csrf_token %}
+        
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Product name</label>
+                  <input type="text" name="product" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                  
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Image Link</label>
+                  <input type="text" name="image" class="form-control" id="exampleInputPassword1">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Price</label>
+                    <input type="text" name="price" class="form-control" id="exampleInputPassword1">
+                  </div>
+
+
+
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Quantity</label>
+                    <input type="text" name="quanity" class="form-control" id="exampleInputPassword1">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Discount</label>
+                    <input type="text" name="discount" class="form-control" >
+                  </div>
+
+               
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+
+
+
+        </div>
+      
+      </div>
+    </div>
+  </div>
+
+
+ {% endblock %}

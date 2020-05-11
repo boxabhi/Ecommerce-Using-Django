@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+
+<div class="text-center">
+
+
+
+<form action="https://www.example.com/payment/success/" method="POST"> 
+    <script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        data-key="rzp_test_umnRBHw4brb3O6" 
+        data-amount="50000" 
+        data-currency="INR"
+        data-buttontext="Pay with Razorpay"
+        data-theme.color="#F37254"
+    ></script>
+    <input type="hidden" custom="Hidden Element" name="hidden">
+    </form>
+
+    </div>
+
+
+
+    <style>
+        form{
+            background :#ffffff !important;
+            color : #000;
+
+
+
+        }
+        </style>
+
+
+
+
+
+
+
+{% endblock %}
