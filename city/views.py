@@ -23,15 +23,15 @@ def cart(request):
     
 
 def buynow(request):
-    client = razorpay.Client(auth = ("rzp_live_sLMg1DMpK4cin4", "E5PAeZ5tZZO5XWgcUN9v7FsM"))
+    # client = razorpay.Client(auth = ("rzp_live_sLMg1DMpK4cin4", "E5PAeZ5tZZO5XWgcUN9v7FsM"))
     order_amount = 50000
     order_currency = 'INR'
     order_receipt = 'order_rcptid_11'
     notes = {'Shipping address': 'Bommanahalli, Bangalore'}   # OPTIONAL
     
-    try:
-        client.order.create(amount=order_amount, currency=order_currency, receipt=order_receipt, notes=notes, payment_capture='1')
-    except Exception as e:
-        print(e)
+    # try:
+    #     client.order.create(amount=order_amount, currency=order_currency, receipt=order_receipt, notes=notes, payment_capture='1')
+    # except Exception as e:
+    #     print(e)
     return render(request, 'buy.html')
     
