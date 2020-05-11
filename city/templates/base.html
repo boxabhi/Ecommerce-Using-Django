@@ -34,13 +34,13 @@
        
 
         {% if request.user.id is None %}
-        <a class="btn btn-outline-primary mr-1" href="/accounts/login">Login</a>
+        <a class="btn btn-outline-primary mr-1" href="/login">Login</a>
         {% else %}
 
-        <a class="btn btn-outline-primary mr-1" href="/accounts/logout">Logout</a>
+        <a class="btn btn-outline-primary mr-1" href="/logout">Logout</a>
 
         {% endif %}
-        <a class="btn btn-outline-success" href="/accounts/register">Register</a>
+        <a class="btn btn-outline-success" href="/register">Register</a>
       </div>
       
   
