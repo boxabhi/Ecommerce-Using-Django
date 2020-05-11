@@ -3,10 +3,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from django.http.response import JsonResponse
 from django.contrib.auth import logout
-from .models import Vendor,Cart
+from .models import Vendor,Cart,Orders
 from django.contrib.auth import login as auth_login
 from dashboard.models import Products
 import razorpay
+from dashboard.models import Places
+from twilio.rest import Client
 
 def home(request):
     result = {'success' : 'Everything Fine!'}
@@ -84,8 +86,8 @@ def vendorinfo(request):
             vendor = Vendor(user = user,shop = shop , whatsapp = whatsapp , area = area , pincode = pincode)
             vendor.save()
             return redirect('dashboard-home')
-            
-        return render(request , 'info.html')
+        places = Places.objects.all()
+        return render(request , 'info.html' , {'places': places})
     else :
         return redirect("404")
     
@@ -117,6 +119,30 @@ def remove(request , id):
            return redirect('error')
        
        
+    
+def order_confirmed(request,id):    
+    user = User.objects.get(id = request.user.id)
+    cart = Cart.objects.get(id=id)
+    vendor = Vendor.objects.get(user = user)
+    cart.ordered = True
+    cart.save()
+    order = Orders(cart=cart , user=user)
+    order.save()
+    account_sid = 'AC48ab62d73254239298364eedd655a6da'
+    auth_token = 'a08352e53fd43c205c6aa9aed15a602b'
+    client = Client(account_sid, auth_token)
+    order_detail = f'Order details \'n {cart.product.product} address {vendor.area}  '
+    message = client.messages.create(
+                              body=f'Your order {order_detail}',
+                              from_='whatsapp:+14155238886',
+                              to='whatsapp:+917985242482'
+                          )
+    
+    return redirect('/')
+    
+    
+    
+    
     
 
 

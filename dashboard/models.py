@@ -19,5 +19,13 @@ class Products(models.Model):
         return self.product
     
     
+
+class Places(models.Model):
+    place = models.CharField(max_length=500)
+    created_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.place
+    
     
     

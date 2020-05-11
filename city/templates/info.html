@@ -34,7 +34,15 @@
 
         <div class="form-group">
             <label>Area</label>
-            <input type="text" name="area" class="form-control">
+
+            <select class="form-control" name="area" id="exampleFormControlSelect1">
+              {% for place in places %}
+              <option value="{{place.id}}">{{place.place}}</option>
+
+              {% endfor %}
+             
+            </select>
+           
         </div>
 
         <div class="form-group">

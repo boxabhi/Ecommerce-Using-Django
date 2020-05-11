@@ -29,3 +29,8 @@ class Cart(models.Model):
     ordered = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now=True)
     
+    
+class Orders(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    

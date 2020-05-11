@@ -22,8 +22,9 @@
                 <span class="badge badge-secondary">{{cart.product.price}}</span>
             </div>
 
+           
             <div class="col-lg-4 mt-4 ">
-                <button class="btn btn-primary ">Buy Now</button>
+                <a  class="btn btn-primary" href="/order-confirmed/{{cart.id}}">Buy Now</a>
                 <a href="/accounts/remove/{{cart.id}}" class="btn btn-danger">Remove</a>
             </div>
 
