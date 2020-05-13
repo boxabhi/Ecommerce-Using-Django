@@ -22,7 +22,7 @@ def home(request):
 def cart(request):
     user = request.user
     if user.id :
-        cart = Cart.objects.filter(user = request.user).all()
+        cart = Cart.objects.filter(user = request.user , ordered=False).all()
         context = { 'carts' : cart}
         return render(request, 'cart.html', context)
     return render(request, 'cart.html')
@@ -133,7 +133,7 @@ def order_confirmed(request,id):
     client = Client(account_sid, auth_token)
     order_detail = f'Order details \'n {cart.product.product} address {vendor.area}  '
     message = client.messages.create(
-                              body=f'Your order {order_detail}',
+                              body=f'Got order from {user.email} {order_detail}',
                               from_='whatsapp:+14155238886',
                               to='whatsapp:+917985242482'
                           )
