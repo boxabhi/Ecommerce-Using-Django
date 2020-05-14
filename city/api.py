@@ -5,9 +5,9 @@ from rest_framework import viewsets
 
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
-from .serializers import ProductSerializer , AccountSerializer,CartSerializer
+from .serializers import ProductSerializer , AccountSerializer,CartSerializer,ConfirmOrderSerializer,ShippingAddressSerializer
 from rest_framework.views import APIView
-from .models import Cart,Orders
+from .models import Cart,Orders,Payment,ConfirmOrder,ShippingAddress
 from dashboard.models import Products
 from rest_framework.authtoken.models import Token
 
@@ -42,7 +42,27 @@ class CartView(APIView):
         else:
             print(serializer.errors)
             return Response({'eroor': 'Failed'})
+  
+
+class ShippingAddressView(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    
+    def get(self, request, *args, **kwargs):
+        address = ShippingAddress.objects.get(user = request.user)
+        serializer = ShippingAddressSerializer(address)
+        return Response(serializer.data)
+    
+    def post(self , request):
+        serializer = ShippingAddressSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'success': 'Shipping Address Confirmed'})
+        else:
+            return Response({'error': 'Something went Wrong'})
         
+        return Response({'error': 'Something went Wrong'})
+          
 
    
    

@@ -1,15 +1,13 @@
 from dashboard.models import Products
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Cart,Orders
+from .models import Cart,Orders,Payment,ConfirmOrder,ShippingAddress
 
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Products
         exclude = ['created_at']
-        
-        
         
 
 
@@ -40,8 +38,18 @@ class CartSerializer(serializers.ModelSerializer):
         print(serializer.data)
         return serializer
             
+            
 
-            
-            
-        
+class ConfirmOrderSerializer(serializers.ModelSerializer):
+    products = serializers.SerializerMethodField()
+    class Meta:
+        model = ConfirmOrder
     
+    def get_product(self,obj):
+        return ProductSerializer(obj.products).data
+        
+        
+            
+class ShippingAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShippingAddress
