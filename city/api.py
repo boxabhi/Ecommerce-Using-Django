@@ -1,4 +1,3 @@
-
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated 
@@ -30,21 +29,21 @@ class CartView(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     def get(self , request):
-        cart = Cart.objects.filter(user = request.user).all()
+        cart = Cart.objects.filter(user = request.user , ordered = False).all()
         serializer = CartSerializer(cart , many=True)
         return Response(serializer.data)
     
     def post(self, request , *args, **kwargs):
-        try:
-            user = Token.objects.get(token=request.META["HTTP_AUTHORIZATION"].split(" ")[1]).user
-        except Token.DoesNotExist:
-            return Response({'error' : 'Token not provided'})
-        print(request.data)
-        serializer = CartSerializer(data = {})
+        serializer = CartSerializer(data = request.data)
+        
         if serializer.is_valid():
+            serializer.save()
             return Response({'success': 'Saved'})
         else:
+            print(serializer.errors)
             return Response({'eroor': 'Failed'})
+        
+
    
    
 @api_view(['GET', 'POST'])

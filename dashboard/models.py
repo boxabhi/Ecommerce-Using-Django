@@ -13,7 +13,7 @@ class Products(models.Model):
     slug = models.SlugField(max_length= 50 , blank=True)
     discount = models.IntegerField(default=0, blank=True)
     image = models.CharField(max_length= 400)
-    description = models.CharField(max_length=1000)
+    description = models.CharField(max_length=1000, blank=True)
     created_at = models.DateTimeField(auto_now=True)
     
     
