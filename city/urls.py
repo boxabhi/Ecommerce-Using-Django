@@ -7,7 +7,7 @@ from .views import (
 
 from dashboard.views import dashboard
 
-from .api import ProductList, UserList, ExampleView, CartView,ShippingAddressView
+from .api import ProductList, UserList, ExampleView, CartView,ShippingAddressView,ProductView
 
 from rest_framework.authtoken.views import obtain_auth_token
 urlpatterns = [    
@@ -33,5 +33,6 @@ urlpatterns = [
     path('api/auth', ExampleView.as_view() , name="auth"),
     path('api/shipping' , ShippingAddressView.as_view() , name="shipping"),
     path('api/token', obtain_auth_token, name='api_token_auth'),
+    path('api/product/<slug>' , ProductView.as_view() , name="product")
 
 ]

@@ -14,6 +14,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
 from rest_framework.authentication import TokenAuthentication
+from django.shortcuts import get_object_or_404
 
 class ProductList(generics.ListCreateAPIView):
     queryset = Products.objects.all()
@@ -34,16 +35,16 @@ class CartView(APIView):
         return Response(serializer.data)
     
     def post(self, request , *args, **kwargs):
-        user = User.objects.get(id=4)
-        product = Products.objects.get(id=result['product'])
-        cart = Cart(user=user, product=product)
+        product = Products.objects.get(id=request.data['product'])
+        cart = Cart(user=request.user, product=product)
         cart.save()
         return Response({'success': 'Added'} , 200)
     
     def delete(self , request):
-        user = 4
+        user = request.user
         product = request.data['product']
         cart = Cart.objects.filter(user = user , product = product)
+        print(cart)
         if cart:
             cart.delete()
             return Response({'success':'removed'} , status=204)
@@ -52,7 +53,7 @@ class CartView(APIView):
     
     def put(self, request):
         user = 4
-        product = request.data['product']
+        #product = request.data['product']
         cart = Cart.objects.get(id = request.data['id'])
         print(cart)
         serializer = CartSerializer(instance=cart ,data= {'user' :request.user.id,'quantity' : request.data['quantity']})
@@ -63,6 +64,16 @@ class CartView(APIView):
             print(serializer.errors)
             return Response({'error' : 'error'})
        
+
+class ProductView(APIView):
+
+    def get(self, request, slug):
+        p = get_object_or_404(Products , slug=slug)
+        print(p)
+        product = Products.objects.get(slug = slug)
+        serializer = ProductSerializer(product)
+        return Response(serializer.data)
+
        
 
    
