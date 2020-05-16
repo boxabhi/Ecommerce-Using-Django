@@ -34,11 +34,16 @@ class ShippingAddress(models.Model):
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)
     ordered = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now=True)
     
     def countCart(self):
         return Cart.objects.all().count
+
+    def __str__(self):
+        return self.user.username + " has " + self.product.product + " " + str(self.product_id)
+    
     
     
 class Orders(models.Model):

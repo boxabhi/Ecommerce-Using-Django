@@ -29,36 +29,62 @@ class CartView(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     def get(self , request):
-        cart = Cart.objects.filter(user = request.user , ordered = False).all()
+        cart = Cart.objects.filter(user = 4 , ordered = False).all()
         serializer = CartSerializer(cart , many=True)
         return Response(serializer.data)
     
     def post(self, request , *args, **kwargs):
-        serializer = CartSerializer(data = request.data)
-        
+        user = User.objects.get(id=4)
+        product = Products.objects.get(id=result['product'])
+        cart = Cart(user=user, product=product)
+        cart.save()
+        return Response({'success': 'Added'} , 200)
+    
+    def delete(self , request):
+        user = 4
+        product = request.data['product']
+        cart = Cart.objects.filter(user = user , product = product)
+        if cart:
+            cart.delete()
+            return Response({'success':'removed'} , status=204)
+        else:
+            return Response({'error' : 'Something went Wrong'})
+    
+    def put(self, request):
+        user = 4
+        product = request.data['product']
+        cart = Cart.objects.get(id = request.data['id'])
+        print(cart)
+        serializer = CartSerializer(instance=cart ,data= {'user' :request.user.id,'quantity' : request.data['quantity']})
         if serializer.is_valid():
             serializer.save()
-            return Response({'success': 'Saved'})
+            return Response({'success':'added'} , status=200)
         else:
             print(serializer.errors)
-            return Response({'eroor': 'Failed'})
-  
+            return Response({'error' : 'error'})
+       
+       
+
+   
 
 class ShippingAddressView(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     
     def get(self, request, *args, **kwargs):
-        address = ShippingAddress.objects.get(user = request.user)
+        address = ShippingAddress.objects.filter(user = request.user).first()
         serializer = ShippingAddressSerializer(address)
         return Response(serializer.data)
     
     def post(self , request):
-        serializer = ShippingAddressSerializer(data = request.data)
+        result = request.data
+        result['user'] = request.user.id
+        serializer = ShippingAddressSerializer(data = result)
         if serializer.is_valid():
             serializer.save()
             return Response({'success': 'Shipping Address Confirmed'})
         else:
+            print(serializer.errors)
             return Response({'error': 'Something went Wrong'})
         
         return Response({'error': 'Something went Wrong'})

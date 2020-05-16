@@ -7,8 +7,10 @@ from .models import Cart,Orders,Payment,ConfirmOrder,ShippingAddress
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Products
-        exclude = ['created_at']
+        exclude = ['created_at', 'user']
         
+    def user_product(self, user):
+        return Product.objects.filter(user=user).all()
 
 
 class AccountSerializer(serializers.ModelSerializer):
@@ -24,11 +26,16 @@ class AccountSerializer(serializers.ModelSerializer):
     
 
 class CartSerializer(serializers.ModelSerializer):
-    product = serializers.SerializerMethodField()
+    product = ProductSerializer()
     class Meta:
         model = Cart
         exclude = ['created']
-        
+    read_only= True
+    
+    
+    def get_queryset(self):
+        return Products.objects.all()
+    
     def get_product(self, obj):
         return ProductSerializer(obj.product).data
     
@@ -53,3 +60,4 @@ class ConfirmOrderSerializer(serializers.ModelSerializer):
 class ShippingAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShippingAddress
+        fields = '__all__'
